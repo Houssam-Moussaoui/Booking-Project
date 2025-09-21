@@ -21,10 +21,10 @@
   <button id="reserveBtn">Confirmer réservation</button>
 
   <script>
-    // —————————— Config ——————————
+    // Config 
     const slotsPerDay = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00"];
 
-    // —————————— Utilitaires date (LOCAL, pas UTC) ——————————
+    
     const toYYYYMMDD = d => {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -33,7 +33,7 @@
     };
     const toHHMM = d => String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
 
-    // —————————— Semaine courante (lundi→dimanche) ——————————
+    
     const today = new Date();
     const dow = today.getDay(); // 0=dim, 1=lun
     const diffToMonday = (dow === 0 ? -6 : 1) - dow;
