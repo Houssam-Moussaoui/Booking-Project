@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .menu {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .actions {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      background: #2b84f2;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #246fce;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f9f9f9;
+      margin: 6px 0;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu">
+    <h2>Bienvenue dans votre espace Booking</h2>
+
+    <div class="actions">
+      <button onclick="window.location.href='/reservation.html'"> Nouvelle réservation</button>
+      <button onclick="window.location.href='/logout'">Déconnexion</button>
+    </div>
+
+    <h3>Mes réservations</h3>
+    <ul id="reservationsList">
+      <li>Chargement...</li>
+    </ul>
+  </div>
+
+  <script>
+    async function chargerReservations() {
+      try {
+        const res = await fetch("/reservations/myBookings");
+        console.log(res)
+        if (!res.ok) {
+          document.getElementById("reservationsList").innerHTML =
+            "<li>Erreur lors du chargement</li>";
+          return;
+        }
+        const data = await res.json();
+
+        const ul = document.getElementById("reservationsList");
+        ul.innerHTML = ""; // vider la liste
+
+        if (data.data.length === 0) {
+          ul.innerHTML = "<li>Aucune réservation trouvée</li>";
+          return;
+        }
+
+        data.data.forEach(r => {
+          const li = document.createElement("li");
+          const date = new Date(r.booking_time).toLocaleString("fr-FR");
+          li.textContent = `${r.booking_name} → ${date}`;
+          ul.appendChild(li);
+        });
+      } catch (err) {
+        console.error("Erreur:", err);
+        document.getElementById("reservationsList").innerHTML =
+          "<li>Impossible de charger les réservations</li>";
+      }
+    }
+
+    // Charger au démarrage
+    chargerReservations();
+  </script>
+</body>
+</html>

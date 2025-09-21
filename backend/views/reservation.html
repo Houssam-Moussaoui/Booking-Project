@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nouvelle réservation</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6f8; }
+    h2 { text-align: center; margin-bottom: 20px; }
+    .day-container { margin-bottom: 20px; padding: 10px; background: #fff; border-radius: 6px; }
+    .slots { display: flex; flex-wrap: wrap; gap: 8px; }
+    .slot { padding: 10px 16px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; background: #f9f9f9; transition: background .2s; }
+    .slot:hover { background: #e3eefe; }
+    .slot.selected { background: #2b84f2; color: #fff; font-weight: bold; }
+    button { display: block; margin: 20px auto; padding: 10px 20px; border: none; background: #2b84f2; color: #fff; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #246fce; }
+  </style>
+</head>
+<body>
+  <h2>Réserver un créneau (semaine actuelle)</h2>
+  <div id="week"></div>
+  <button id="reserveBtn">Confirmer réservation</button>
+
+  <script>
+    // —————————— Config ——————————
+    const slotsPerDay = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00"];
+
+    // —————————— Utilitaires date (LOCAL, pas UTC) ——————————
+    const toYYYYMMDD = d => {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    };
+    const toHHMM = d => String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+
+    // —————————— Semaine courante (lundi→dimanche) ——————————
+    const today = new Date();
+    const dow = today.getDay(); // 0=dim, 1=lun
+    const diffToMonday = (dow === 0 ? -6 : 1) - dow;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+
+    let reservedSlots = [];
+    let selectedSlot = null;
+
+    //Fetch des réservations existantes
+    async function loadReservations() {
+      try {
+        const res = await fetch("/reservations", { credentials: "include" });
+        const json = await res.json();
+        console.log("[/reservations] payload brut:", json);
+
+        reservedSlots = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : []);
+        console.log("reservedSlots (normalisé):", reservedSlots);
+
+        renderWeek();
+      } catch (err) {
+        console.error("Erreur chargement des réservations:", err);
+        reservedSlots = []; 
+        renderWeek();
+      }
+    }
+
+    // Rendu de la semaine avec masquage des créneaux pris 
+    function renderWeek() {
+      const weekDiv = document.getElementById("week");
+      weekDiv.innerHTML = "";
+
+      for (let i = 0; i < 7; i++) {
+        const day = new Date(monday);
+        day.setDate(monday.getDate() + i);
+
+        const dayLabel = day.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "short" });
+
+        const container = document.createElement("div");
+        container.classList.add("day-container");
+        container.innerHTML = `<h3>${dayLabel}</h3>`;
+
+        const slotsDiv = document.createElement("div");
+        slotsDiv.classList.add("slots");
+
+        const slotDate = toYYYYMMDD(day); // yyyy-mm-dd
+
+        slotsPerDay.forEach(time => {
+          const taken = reservedSlots.some(r => {
+            const booked = new Date(r.booking_time);
+            const bDate = toYYYYMMDD(booked);
+            const bHour = toHHMM(booked);
+            const match = (bDate === slotDate && bHour === time);
+            if (match) {
+              console.log(`Créneau PRIS masqué → ${slotDate} ${time} (réservé: ${bDate} ${bHour})`);
+            }
+            return match;
+          });
+
+          if (taken) return;
+
+          const btn = document.createElement("div");
+          btn.classList.add("slot");
+          btn.textContent = time;
+
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+            btn.classList.add("selected");
+            selectedSlot = { date: slotDate, time };
+            console.log("Sélection:", selectedSlot);
+          });
+
+          slotsDiv.appendChild(btn);
+        });
+
+        container.appendChild(slotsDiv);
+        weekDiv.appendChild(container);
+      }
+    }
+
+    //POST de la réservation 
+    document.getElementById("reserveBtn").addEventListener("click", async () => {
+      if (!selectedSlot) {
+        alert("Veuillez choisir un créneau !");
+        return;
+      }
+
+      const payload = {
+        booking_name: "Réservation",
+        booking_time: `${selectedSlot.date}T${selectedSlot.time}:00`
+      };
+      console.log("POST /reservations payload:", payload);
+
+      try {
+        const res = await fetch("/reservations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload)
+        });
+
+        const out = await res.json().catch(() => ({}));
+        console.log("Réponse /reservations:", res.status, out);
+
+        if (res.ok) {
+          alert("Réservation confirmée !");
+          // Rechargement pour masquer le créneau maintenant pris
+          //loadReservations();
+          window.location.href = "/menu.html"; 
+        } else {
+          alert(out?.message || "Erreur lors de la réservation");
+        }
+      } catch (err) {
+        console.error("Erreur POST /reservations:", err);
+        alert("Impossible d’envoyer la réservation.");
+      }
+    });
+
+
+    loadReservations();
+  </script>
+</body>
+</html>
