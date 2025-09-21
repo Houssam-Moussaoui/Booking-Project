@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking</title>
-    <link rel="stylesheet" href="style.css">
-    <script src = "script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
 </head>
 <body>
-    
-<form method="POST" action="">
-    mail : <input type="text" name="nom"/><br/>
-    mot de passe : <input type="text" name="prenom" /><br/>
-    <input type="submit" id = "submit"/>
-</form>
+  <h2>Connexion</h2>
 
+  <form method="POST" action="/login">
+    <label for="email">Email</label><br>
+    <input type="text" id="email" name="email" /><br/>
+
+    <label for="password">Mot de passe</label><br>
+    <input type="password" id="paswword" name="password" /><br/>
+
+    <input type="submit" value="Se connecter" />
+
+    <button type="button" onclick="window.location.href='/signup.html'">
+      S’inscrire
+    </button>
+  </form>
 </body>
 </html>

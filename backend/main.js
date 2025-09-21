@@ -2,26 +2,28 @@ require("dotenv").config();
 
 const  express = require("express")
 const app = express()
-const RouterUsers = require("./routes/users.js")
 
+const db = require("./models/database.js");
+const { User, Booking } = require("./models/users.js");
 
-app.use(express.json());           
-app.use(express.static("public"));
-
-
-// app.get("/",(req,res,next) => {
-//     console.log("hi")
-//     res.send("hello")
-// })
-
-
-app.post("/", (req,res) => {
-    console.log(req.body); // { nom: "xxx", prenom: "yyy" }
-    res.send("Login reçu !");
+db.sync({ alter: true }).then(() => {
+  console.log("Tables synchronisées avec PostgreSQL");
 });
 
 
 
-app.use("/users",RouterUsers)
+const router_login = require("./routes/login.js")
+const router_signup = require("./routes/signup.js")
+
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json());           
+app.use(express.static("public"));
+
+app.use("/login",router_login)
+app.use("/signup",router_signup)
+
+
+
+
 
 app.listen(4000)

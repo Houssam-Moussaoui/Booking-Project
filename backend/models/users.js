@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("./database.js");
 
-const users = db.define("users", {
+const User = db.define("User", {
   id: {
     primaryKey: true,
     type: DataTypes.INTEGER,
@@ -9,57 +9,37 @@ const users = db.define("users", {
   },
   name: {
     type: DataTypes.STRING(128),
-    validate: {
-      is: /^[a-z\-'\s]{1,128}$/i
-    }
+    allowNull: false
   },
   email: {
     type: DataTypes.STRING(128),
     unique: true,
-    validate: {
-      isEmail: true
-    }
+    allowNull: false,
+    validate: { isEmail: true }
   },
   passhash: {
-    type: DataTypes.STRING(60),
-    validate: {
-      is: /^[0-9a-z\\/$.]{60}$/i
-    }
+    type: DataTypes.STRING(200), 
+    allowNull: false
   }
 }, { timestamps: false });
 
-
-const bookings = db.define("bookings",{
-
+const Booking = db.define("Booking", {
   id: {
     primaryKey: true,
     type: DataTypes.INTEGER,
     autoIncrement: true
   },
-  name: {
+  booking_name: {
     type: DataTypes.STRING(128),
-    validate: {
-      is: /^[a-z\-'\s]{1,128}$/i
-    }
+    allowNull: false
   },
-  time: {
-    type: DataTypes.DATE,   
+  booking_time: {
+    type: DataTypes.DATE,
     allowNull: false
   }
-}) 
+}, { timestamps: false });
 
+User.hasMany(Booking, { foreignKey: "userId" });
+Booking.belongsTo(User, { foreignKey: "userId" });
 
-users.hasMany(bookings, { foreignKey: "userId" });
-bookings.belongsTo(users, { foreignKey: "userId" });
-
-
-module.exports = {
-
-users ,
-bookings
-
-}
-
-
-
-
+module.exports = { User, Booking };

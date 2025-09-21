@@ -1,13 +1,11 @@
-/* style.css — simple + lisible */
 body {
     font-family: Arial, sans-serif;
     background: #f4f6f8;
     color: #222;
     margin: 0;
     padding: 40px;
-}
+    }
 
-/* centre le formulaire de façon modeste */
 form {
     max-width: 360px;
     margin: 30px auto;
@@ -17,20 +15,22 @@ form {
     border-radius: 6px;
 }
 
-/* titre / labels */
-h2 { 
-    text-align: center; 
-    margin-bottom: 10px; 
-    color: #333; 
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
 }
 
-/* champs */
-input[type="text"],
-input[type="password"],
-input[type="email"] {
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+input[type="text"],input[type="password"],input[type="email"] {
     width: 100%;
     padding: 8px 10px;
-    margin-top: 6px;
     margin-bottom: 12px;
     border: 1px solid #cfd6db;
     border-radius: 4px;
@@ -38,12 +38,11 @@ input[type="email"] {
     box-sizing: border-box;
 }
 
-/* bouton */
-input[type="submit"],
-button {
+input[type="submit"],button {
     display: block;
     width: 100%;
     padding: 10px;
+    margin-top: 10px;
     background: #2b84f2;
     color: #fff;
     border: none;
@@ -52,19 +51,13 @@ button {
     font-weight: 600;
 }
 
+
+
+
 input[type="submit"]:hover,button:hover {
     background: #246fce;
 }
 
-/* petit texte sous le formulaire */
-p { 
-    text-align: center; 
-    font-size: 13px; 
-    color: #666; 
-    margin-top: 10px;
-}
-
-/* responsive : réduit la marge sur petits écrans */
 @media (max-width: 420px) {
     body { padding: 18px; }
     form { margin: 12px auto; }
