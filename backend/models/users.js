@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("./database.js");
 
-const User = db.define("User", {
+const users = db.define("users", {
   id: {
     primaryKey: true,
     type: DataTypes.INTEGER,
@@ -28,4 +28,38 @@ const User = db.define("User", {
   }
 }, { timestamps: false });
 
-module.exports = User;
+
+const bookings = db.define("bookings",{
+
+  id: {
+    primaryKey: true,
+    type: DataTypes.INTEGER,
+    autoIncrement: true
+  },
+  name: {
+    type: DataTypes.STRING(128),
+    validate: {
+      is: /^[a-z\-'\s]{1,128}$/i
+    }
+  },
+  time: {
+    type: DataTypes.DATE,   
+    allowNull: false
+  }
+}) 
+
+
+users.hasMany(bookings, { foreignKey: "userId" });
+bookings.belongsTo(users, { foreignKey: "userId" });
+
+
+module.exports = {
+
+users ,
+bookings
+
+}
+
+
+
+
