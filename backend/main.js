@@ -28,12 +28,6 @@ app.use(session({
 }));
 
 
-app.use(session({
-    secret: process.env.TOKENSECRET || "booking-secret", 
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false } //false car HTTP
-}));
 
 
 
@@ -84,4 +78,14 @@ app.get("/logout", (req, res) => {
 
 
 
-app.listen(4000)
+// app.listen(4000)
+
+
+// démarre le serveur seulement si exécuté directement
+if (require.main === module) {
+  app.listen(4000, () => {
+    console.log("Serveur en écoute sur le port 4000");
+  });
+}
+
+module.exports = app; // pour Jest
