@@ -40,7 +40,7 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
    ```bash
    git clone <url-du-repo>
    cd Booking-Project/backend
-````
+
 
 2. Créer un fichier `.env` (non versionné) contenant la configuration de la base et le secret des sessions.
    Exemple :
@@ -62,7 +62,7 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
 
 4. Accéder à [http://localhost:4000](http://localhost:4000)
 
----
+
 
 ## Utilisation
 
@@ -78,12 +78,12 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
 
 ### Vue d’ensemble
 
-```
+
 [Frontend HTML/CSS/JS]  <--->  [Express / Node.js]  <--->  [PostgreSQL]
          ↑                           ↑
       public/                     controllers/
       views/                      routes/
-```
+
 
 ### Organisation des dossiers
 
