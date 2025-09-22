@@ -2,7 +2,7 @@
 # Booking Project
 
 ## Description
-Ce projet est une application de réservation simple.  
+Ce projet est une application de réservation.  
 Un utilisateur peut s’inscrire, se connecter, puis réserver un créneau horaire dans la semaine en cours.  
 Un créneau déjà pris ne peut pas être réservé de nouveau.  
 
