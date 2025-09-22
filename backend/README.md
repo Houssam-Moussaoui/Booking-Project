@@ -130,17 +130,4 @@ backend/
 └── README.md              # Documentation du projet
 ```
 
----
 
-## Notes
-
-* En développement, les sessions utilisent `MemoryStore`.
-* En production, il est recommandé d’utiliser Redis ou un autre store externe.
-* Ce projet illustre un workflow complet : backend, base de données, frontend minimal et conteneurisation.
-
-```
-
----
-
-Veux-tu que je t’ajoute aussi une section **"Exemple de workflow utilisateur"** (inscription → login → réservation → menu) pour rendre ton README encore plus concret et parlant ?
-```
