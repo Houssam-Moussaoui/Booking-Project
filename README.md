@@ -133,7 +133,7 @@ backend/
 ├── main.js                # Point d'entrée du serveur Express
 ├── package.json           # Dépendances Node.js
 ├── package-lock.json
-└── README.md              # Documentation du projet
+
 ```
 
 
