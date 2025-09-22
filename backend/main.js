@@ -11,6 +11,23 @@ db.sync({ alter: true }).then(() => {
 });
 
 
+const isProd = process.env.NODE_ENV === 'production';
+if (isProd) app.set('trust proxy', 1); // derrière proxy du PaaS
+
+app.use(session({
+  name: "sid",
+  secret: process.env.TOKENSECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: isProd,       // cookie via HTTPS seulement en prod
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 1000 * 60 * 30 // 30 min
+  }
+}));
+
+
 app.use(session({
     secret: process.env.TOKENSECRET || "booking-secret", 
     resave: false,
