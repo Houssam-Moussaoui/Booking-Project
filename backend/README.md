@@ -41,7 +41,7 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
    ```bash
    git clone <url-du-repo>
    cd Booking-Project/backend
-````
+
 
 2. Créer un fichier `.env` (non versionné) contenant la configuration de la base et le secret des sessions.
    Exemple :
@@ -53,13 +53,13 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
    DB_HOST=...
    DB_PORT=...
    TOKENSECRET=...
-   ```
+   
 
 3. Lancer l’application avec :
 
    ```bash
    docker compose up -d --build
-   ```
+   
 
 4. Accéder à [http://localhost:4000](http://localhost:4000)
 
