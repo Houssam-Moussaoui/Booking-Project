@@ -1,3 +1,9 @@
+Parfait 👍 je vois que ton README est déjà bien structuré, mais il y a quelques soucis de mise en forme Markdown (blocs ouverts/non fermés, indentation).
+Voici une version corrigée et propre que tu peux utiliser directement comme `README.md`.
+
+---
+
+````markdown
 # Booking Project
 
 ## Description
@@ -40,12 +46,12 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
    ```bash
    git clone <url-du-repo>
    cd Booking-Project/backend
-
+````
 
 2. Créer un fichier `.env` (non versionné) contenant la configuration de la base et le secret des sessions.
    Exemple :
 
-   ```
+   ```env
    DB_NAME=...
    DB_USER=...
    DB_PASSWORD=...
@@ -62,7 +68,7 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
 
 4. Accéder à [http://localhost:4000](http://localhost:4000)
 
-
+---
 
 ## Utilisation
 
@@ -78,12 +84,12 @@ Le but est d’illustrer une architecture complète avec un serveur **Express**,
 
 ### Vue d’ensemble
 
-
+```
 [Frontend HTML/CSS/JS]  <--->  [Express / Node.js]  <--->  [PostgreSQL]
          ↑                           ↑
       public/                     controllers/
       views/                      routes/
-
+```
 
 ### Organisation des dossiers
 
@@ -127,4 +133,19 @@ backend/
 ├── package.json           # Dépendances Node.js
 ├── package-lock.json
 └── README.md              # Documentation du projet
+```
+
+---
+
+## Notes
+
+* En développement, les sessions utilisent `MemoryStore`.
+* En production, il est recommandé d’utiliser Redis ou un autre store externe.
+* Ce projet illustre un workflow complet : backend, base de données, frontend minimal et conteneurisation.
+
+```
+
+---
+
+Veux-tu que je t’ajoute aussi une section **"Exemple de workflow utilisateur"** (inscription → login → réservation → menu) pour rendre ton README encore plus concret et parlant ?
 ```
