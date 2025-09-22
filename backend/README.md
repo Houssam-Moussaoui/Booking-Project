@@ -1,9 +1,4 @@
-Parfait 👍 je vois que ton README est déjà bien structuré, mais il y a quelques soucis de mise en forme Markdown (blocs ouverts/non fermés, indentation).
-Voici une version corrigée et propre que tu peux utiliser directement comme `README.md`.
 
----
-
-````markdown
 # Booking Project
 
 ## Description
